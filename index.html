@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Daily Quiz & Games</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 500px; margin: 3rem auto; padding: 1rem; background: #0f172a; color: #f8fafc; }
+    .link { display: block; padding: 1rem; margin: 1rem 0; background: #1e293b; border: 1px solid #334155; border-radius: 8px; text-decoration: none; color: #f8fafc; pointer-events: none; opacity: 0.5; transition: all 0.4s ease; }
+    .link.ready { pointer-events: auto; opacity: 1; border-color: #60a5fa; box-shadow: 0 4px 15px rgba(96, 165, 250, 0.1); }
+    .link.ready:hover { background: #334155; transform: translateY(-2px); border-color: #38bdf8; }
+    h1 { font-size: 1.8rem; letter-spacing: -0.025em; }
+    h2 { color: #60a5fa; margin-top: 2rem; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #334155; padding-bottom: 0.5rem; }
+    .status { font-size: 0.8rem; color: #94a3b8; margin-top: 0.3rem; }
+    #verification-bar { font-size: 0.9rem; color: #fbbf24; margin-bottom: 1.5rem; padding: 0.6rem; border-radius: 6px; background: rgba(251, 191, 36, 0.1); display: inline-block; border: 1px solid rgba(251, 191, 36, 0.2); }
+  </style>
+</head>
+<body>
+  <h1>Daily Quiz & Games</h1>
+  
+  <div id="verification-bar">🛡️ Checking security environment...</div>
+
+  <h2>Quizzes</h2>
+  <a href="quizzes/Mass_quiz1.html" class="link quiz-link">
+    Mass Quiz #1
+    <div class="status">Test your market skills</div>
+  </a>
+  <a href="quizzes/Mass_quiz2.html" class="link quiz-link">
+    Mass Quiz #2
+    <div class="status">Test yourself on research and infra</div>
+  </a>
+
+  <h2>Games</h2>
+  <a href="games/hangman.html" class="link quiz-link">
+    Hangman
+    <div class="status">Have fun guessing with 6 lives or die </div>
+  </a>
+  <a href="games/pingpong.html" class="link quiz-link">
+    Pro Pong Arena
+    <div class="status">Have fun with tennis pong</div>
+  </a>
+  <a href="games/guess_the_correlation_and_fit.html" class="link quiz-link">
+    Guess the Correlation
+    <div class="status">Test your intuition and data skills</div>
+  </a>
+
+  <script src="js/botprotect.js"></script>
+  <script>
+    // Initial environmental scan
+    if (!BotProtect.check()) {
+      BotProtect.block("Security Integrity Check Failed");
+    }
+
+    // Behavioral verification
+    BotProtect.requireHuman()
+      .then(() => {
+        const bar = document.getElementById('verification-bar');
+        bar.style.color = '#4ade80';
+        bar.style.background = 'rgba(74, 222, 128, 0.1)';
+        bar.style.borderColor = 'rgba(74, 222, 128, 0.2)';
+        bar.innerText = "✓ Identity Verified: Human";
+        
+        document.querySelectorAll('.quiz-link').forEach(link => {
+          link.classList.add('ready');
+        });
+      })
+      .catch((err) => {
+        BotProtect.block("Verification Failed: " + err);
+      });
+  </script>
+</body>
+</html>

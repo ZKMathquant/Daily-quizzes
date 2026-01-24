@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pro Pong - Secured Arena</title>
+<style>
+  body{margin:0;background:#000;display:flex;flex-direction:column;align-items:center;font-family:sans-serif;color:#fff;overflow:hidden}
+  canvas{background:#0b6623;display:none;margin:20px auto;border:5px solid #444;box-shadow:0 0 30px #000;cursor:none}
+  .c-box{display:none;padding:15px;background:#222;border-radius:10px;border:1px solid #333;z-index:100;text-align:center}
+  button{margin:0 5px;padding:8px 15px;cursor:pointer;background:#2e7d32;color:#fff;border:none;border-radius:4px;font-weight:bold;transition:0.2s}
+  button:hover{background:#388e3c;transform:scale(1.05)}
+  .btn-grp{margin:10px 0;display:inline-block;padding:0 15px}
+  #ovl{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.95);padding:40px;border:3px solid #4CAF50;text-align:center;z-index:1000;border-radius:15px}
+  .lbl{font-size:12px;color:#888;display:block;margin-bottom:5px;text-transform:uppercase}
+</style>
+</head>
+<body oncontextmenu="return false;">
+<div id="m_root"><h2>Initializing Neural Environment...</h2></div>
+<div id="ovl"><h1 id="res_txt" style="font-size:48px;letter-spacing:10px"></h1><button onclick="v_r_game()" style="padding:15px 30px;font-size:18px">RESTART ARENA</button></div>
+
+<script>
+(function() {
+    // SECURITY OBFUSCATION
+    const _0xSec = [0x7b, 0x49, 0x4a, 0x55, 0x3E8, 0x1F4]; 
+
+    window.addEventListener('keydown', function(e) {
+        if (e.keyCode === _0xSec[0] || (e.ctrlKey && e.shiftKey && (e.keyCode === _0xSec[1] || e.keyCode === _0xSec[2])) || (e.ctrlKey && e.keyCode === _0xSec[3])) {
+            e.preventDefault(); return ![];
+        }
+    });
+
+    const _0xG = function() {
+        const _0xT1 = Date.now();
+        (function() { debugger; })(); 
+        if (Date.now() - _0xT1 > _0xSec[5]) {
+            window.location.replace("about:blank");
+        }
+    };
+    let _gInt = setInterval(_0xG, _0xSec[4]);
+
+    const _0xS = ['\x67\x61\x6d\x65\x43\x61\x6e\x76\x61\x73', '\x32\x64', '\x6d\x5f\x72\x6f\x6f\x74', '\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c', '\x41\x72\x69\x61\x6c'];
+
+    setTimeout(() => {
+        const _root = document.getElementById(_0xS[2]);
+        _root[_0xS[3]] = `
+            <h1 style="color:#4CAF50;letter-spacing:5px;margin:10px 0">PONG PRO</h1>
+            <canvas id="gameCanvas" width="1000" height="600" style="display:block"></canvas>
+            <div class="c-box" style="display:block">
+                <div class="btn-grp"><span class="lbl">Engine Speed</span>
+                    <button onclick="v_s('slow')">Slow</button><button onclick="v_s('fast')">Fast</button><button onclick="v_s('vfast')">V-Fast</button>
+                </div>
+                <div class="btn-grp"><span class="lbl">Victory Condition</span>
+                    <button onclick="v_p(5)">5 Pts</button><button onclick="v_p(10)">10 Pts</button>
+                </div>
+            </div>`;
+
+        const _cv = document.getElementById(_0xS[0]);
+        const _tx = _cv.getContext(_0xS[1]);
+        let _pY=250,_aY=250,_bX=500,_bY=300,_sX=7,_sY=4,_ps=0,_as=0,_tw=5,_ov=false,_h=0,_am=1;
+        
+        window.v_s = (m) => { const _sp = {'slow':[7,4],'fast':[13,7],'vfast':[19,10]}; _sX=(_sX>0?1:-1)*_sp[m][0]; _sY=(_sY>0?1:-1)*_sp[m][1]; };
+        window.v_p = (n) => { _tw = n; v_r_game(); };
+        window.v_r_game = () => { _ps=0;_as=0;_ov=false; document.getElementById('ovl').style.display='none'; _rs(1); };
+
+        function _rs(d) {
+            _bX=500;_bY=300;_sX=Math.abs(_sX)*d; _sY=(Math.random()*4)-2; _h=0;_am=1;
+        }
+
+        function _up() {
+            if(_ov)return; 
+            _bX+=_sX; _bY+=_sY;
+            if(_bY<10||_bY>590) _sY=-_sY;
+            if(_bX<20) {
+                if(_bY>_pY&&_bY<_pY+100) { _sX=-_sX; _h++; _sY+=(Math.random()*2-1); if(_h>=3){_am=0.65;} } 
+                else { _as++; if(_as>=_tw){_end("DEFEAT");} else _rs(1); }
+            }
+            if(_bX>980) {
+                if(_bY>_aY&&_bY<_aY+100) { _sX=-_sX; _sY+=(Math.random()*2-1); } 
+                else { _ps++; if(_ps>=_tw){_end("VICTORY");} else _rs(-1); }
+            }
+            let _aMid=_aY+50; let _aiS=(4.5+(_sX*0.05))*_am;
+            if(_aMid<_bY-35)_aY+=_aiS; else if(_aMid>_bY+35)_aY-=_aiS;
+        }
+
+        function _end(t) {
+            _ov=true;
+            document.getElementById('res_txt').innerText = t;
+            document.getElementById('res_txt').style.color = (t === "VICTORY") ? "#4CAF50" : "#f44336";
+            document.getElementById('ovl').style.display = 'block';
+        }
+
+        function _dr() {
+            _tx.fillStyle='#0b6623';_tx.fillRect(0,0,1000,600);
+            _tx.fillStyle='rgba(255,255,255,0.1)';
+            for(let i=0;i<600;i+=40)_tx.fillRect(498,i,4,20);
+            _tx.fillStyle='#fff'; _tx.fillRect(10,_pY,12,100);_tx.fillRect(978,_aY,12,100);
+            _tx.beginPath();_tx.arc(_bX,_bY,10,0,Math.PI*2);_tx.fill();
+            _tx.font="bold 20px "+_0xS[4]; _tx.fillText("PLAYER: "+_ps, 80, 40); _tx.fillText("ARENA AI: "+_as, 820, 40);
+            if(_am<1){_tx.fillStyle='#ffeb3b';_tx.fillText("USER BUFF ACTIVE - AI SLOWED", 360, 40);}
+        }
+
+        _cv.addEventListener('mousemove',(e)=>{
+            const r=_cv.getBoundingClientRect();
+            _pY=e.clientY-r.top-50;
+            if(_pY<0)_pY=0; if(_pY>500)_pY=500;
+        });
+
+        function _l(){_up();_dr();requestAnimationFrame(_l);}
+        _l();
+    }, 1200);
+})();
+</script>
+</body>
+</html>
