@@ -7,3 +7,5 @@ If you have an edge
 - Spoil the party by making it public to even up the field
 
 **Bots stay away**
+
+Test yourself or have fun when bored!
