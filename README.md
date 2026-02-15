@@ -9,3 +9,11 @@ If you have an edge
 **Bots stay away**
 
 Test yourself or have fun when bored!
+
+Games
+- Tennispong
+- Guess the word
+- Guess the fit and test your data skills
+- Trading championship: Player A or B?
+
+
